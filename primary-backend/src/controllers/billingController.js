@@ -36,7 +36,8 @@ exports.createCheckoutSession = async (req, res) => {
     res.json({ url: session.url });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Failed to create checkout session' });
+    require('fs').appendFileSync('checkout_error.log', new Date().toISOString() + ' ' + err.stack + '\n');
+    res.status(500).json({ error: 'Failed to create checkout session', msg: err.message });
   }
 };
 
